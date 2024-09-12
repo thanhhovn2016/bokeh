@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<script>
+	  var socket = new WebSocket( "ws://192.168.200.131:8000", "example-protocol" );
+	  function update(msg) { 
+		document.getElementById("getrandnum").innerHTML = msg; 
+	}
+	  socket.onopen = function() { console.log("socket open"); update("open"); }
+	  socket.onclose = function() { console.log("socket close"); update("closed"); }
+	  socket.onmessage = function(msg) { console.log("socket message: " + msg.data); update(msg.data); }
+	  setInterval(getrandnumber, 1000);
+
+		function getrandnumber() {
+		  console.log("interval");
+		  socket.send("Hello!");
+		}
+	</script>
+  
+    <meta charset="utf-8">
+    {{ bokeh_css }}
+    {{ bokeh_js }}
+    <link rel="stylesheet" href="styles.css"/>
+  </head>
+  <body>
+  {{ plot_div|indent(8) }}
+  {{ plot_script|indent(8) }}
+  </body>
+</html>
